@@ -38,6 +38,7 @@ describe("toDate Tests", () => {
   test("toDate (milliseconds)", () => {
     const { date, milliseconds } = setup();
     const toDateValue = toDate(milliseconds);
+
     expect(toDateValue?.getTime()).toEqual(date.getTime());
   });
 

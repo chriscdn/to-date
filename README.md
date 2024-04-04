@@ -1,6 +1,6 @@
 # @chriscdn/to-date
 
-A utility for converting numbers and strings to a `Date`.
+A utility for converting numbers and strings to `Date`.
 
 ## Motivation
 
@@ -28,42 +28,48 @@ yarn add @chriscdn/to-date
 
 ### toDate
 
-The `toDate` function accepts `number` (ms or μs), `string`, `Date`, `null`, or `undefined`, and returns a `Date` or `undefined`.
+The `toDate` function accepts a `number` (ms or μs), `string`, `Date`, `null`, or `undefined`, and returns a `Date` or `undefined`.
 
 For numbers, the method makes a best guess as to whether the value is in milliseconds or microseconds, and converts accordingly.
 
 **Examples:**
 
 ```js
-import { toDate, ToDateNumberUnit } from "@chriscdn/to-date";
+import { toDate } from "@chriscdn/to-date";
 
 toDate("2024-04-04T00:00:00");
+// 2024-04-03T22:00:00.000Z
 
-toDate(1712226790000000)
-> 2024-04-04T10:33:10.000Z
+toDate(1712226790000000);
+// 2024-04-04T10:33:10.000Z
 ```
 
 Ambiguity as to whether the number is in milliseconds or microseconds can be removed with the `ToDateNumberUnit` enum. This shouldn't be an issue for dates after 1971.
 
 ```js
-toDate(1712226790000000, ToDateNumberUnit.MICROSECONDS)
-> 2024-04-04T10:33:10.000Z
+import { toDate, ToDateNumberUnit } from "@chriscdn/to-date";
+
+toDate(1712226790000000, ToDateNumberUnit.MICROSECONDS);
+// 2024-04-04T10:33:10.000Z
 ```
 
 ### isDate
 
-The `isDate` function accepts a value, and returns `true` if the value is a valid `Date`.
+The `isDate` function accepts a value, and returns `true` if the value is a valid `Date` object.
 
 **Example:**
 
 ```js
 import { isDate } from "@chriscdn/to-date";
 
-isDate("2024-04-04T00:00:00"); // false
+isDate("2024-04-04T00:00:00");
+// false
 
-isDate(new Date("hello")); // false
+isDate(new Date("hello"));
+// false
 
-isDate(new Date()); // false
+isDate(new Date());
+// true
 ```
 
 ## License

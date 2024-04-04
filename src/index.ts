@@ -26,10 +26,13 @@ const toDate = (
     switch (numberUnit) {
       case ToDateNumberUnit.BESTGUESS:
         baseValue = isLikelyMicroseconds(value) ? value / 1000 : value;
+        break;
       case ToDateNumberUnit.MILLISCONDS:
         baseValue = value;
+        break;
       case ToDateNumberUnit.MICROSECONDS:
         baseValue = value / 1000;
+        break;
     }
 
     return new Date(baseValue);
