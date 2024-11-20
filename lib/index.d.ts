@@ -4,5 +4,7 @@ declare enum ToDateNumberUnit {
     MILLISCONDS = 1,
     MICROSECONDS = 2
 }
-declare const toDate: (value: Date | string | number | null | undefined, numberUnit?: ToDateNumberUnit) => Date | undefined;
-export { toDate, isDate, ToDateNumberUnit };
+type TValue = Date | string | number | null | undefined;
+type TReturnValue<T> = T extends Date | number ? Date : Date | undefined;
+declare const toDate: <T extends TValue>(value: T, numberUnit?: ToDateNumberUnit) => TReturnValue<T>;
+export { isDate, toDate, ToDateNumberUnit };

@@ -10,16 +10,20 @@ enum ToDateNumberUnit {
   MICROSECONDS,
 }
 
-const toDate = (
-  value: Date | string | number | null | undefined,
-  numberUnit = ToDateNumberUnit.BESTGUESS
-): Date | undefined => {
+type TValue = Date | string | number | null | undefined;
+type TReturnValue<T> = T extends Date | number ? Date
+  : Date | undefined;
+
+const toDate = <T extends TValue>(
+  value: T,
+  numberUnit = ToDateNumberUnit.BESTGUESS,
+): TReturnValue<T> => {
   if (isDate(value)) {
     return value;
   } else if (typeof value === "string") {
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date#date_time_string_format
     const _d = new Date(value);
-    return isDate(_d) ? _d : undefined;
+    return (isDate(_d) ? _d : undefined) as TReturnValue<T>;
   } else if (typeof value === "number") {
     let baseValue: number;
 
@@ -37,8 +41,8 @@ const toDate = (
 
     return new Date(baseValue);
   } else {
-    return undefined;
+    return undefined as TReturnValue<T>;
   }
 };
 
-export { toDate, isDate, ToDateNumberUnit };
+export { isDate, toDate, ToDateNumberUnit };
