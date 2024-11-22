@@ -1,4 +1,4 @@
-import { toDate, isDate } from "../src/index";
+import { isDate, toDate } from "../src/index";
 
 describe("isDate Tests", () => {
   test("isDate 02", () => {

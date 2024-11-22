@@ -1,22 +1,23 @@
-// const isLikelyMilliseconds = (n: number) => log10(n) < 13;
 const isLikelyMicroseconds = (n: number) => Math.log10(n) >= 13;
 
 const isDate = (object: unknown): object is Date =>
   object instanceof Date && !isNaN(object.getTime());
 
-enum ToDateNumberUnit {
+enum EpochUnit {
   BESTGUESS,
   MILLISCONDS,
   MICROSECONDS,
 }
 
 type TValue = Date | string | number | null | undefined;
+
+// We're guaranteed a Date return value if the input is a number or Date.
 type TReturnValue<T> = T extends Date | number ? Date
   : Date | undefined;
 
 const toDate = <T extends TValue>(
   value: T,
-  numberUnit = ToDateNumberUnit.BESTGUESS,
+  numberUnit = EpochUnit.BESTGUESS,
 ): TReturnValue<T> => {
   if (isDate(value)) {
     return value;
@@ -25,16 +26,16 @@ const toDate = <T extends TValue>(
     const _d = new Date(value);
     return (isDate(_d) ? _d : undefined) as TReturnValue<T>;
   } else if (typeof value === "number") {
-    let baseValue: number;
+    let baseValue!: number;
 
     switch (numberUnit) {
-      case ToDateNumberUnit.BESTGUESS:
+      case EpochUnit.BESTGUESS:
         baseValue = isLikelyMicroseconds(value) ? value / 1000 : value;
         break;
-      case ToDateNumberUnit.MILLISCONDS:
+      case EpochUnit.MILLISCONDS:
         baseValue = value;
         break;
-      case ToDateNumberUnit.MICROSECONDS:
+      case EpochUnit.MICROSECONDS:
         baseValue = value / 1000;
         break;
     }
@@ -45,4 +46,4 @@ const toDate = <T extends TValue>(
   }
 };
 
-export { isDate, toDate, ToDateNumberUnit };
+export { EpochUnit, isDate, toDate };
