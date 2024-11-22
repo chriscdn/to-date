@@ -44,12 +44,12 @@ toDate(1712226790000000);
 // 2024-04-04T10:33:10.000Z
 ```
 
-Ambiguity as to whether the number is in milliseconds or microseconds can be removed with the `ToDateNumberUnit` enum. This shouldn't be an issue for dates after 1971.
+Ambiguity as to whether the number is in milliseconds or microseconds can be removed with the `EpochUnit` enum. This shouldn't be an issue for dates after 1971.
 
 ```js
-import { toDate, ToDateNumberUnit } from "@chriscdn/to-date";
+import { toDate, EpochUnit } from "@chriscdn/to-date";
 
-toDate(1712226790000000, ToDateNumberUnit.MICROSECONDS);
+toDate(1712226790000000, EpochUnit.MICROSECONDS);
 // 2024-04-04T10:33:10.000Z
 ```
 
