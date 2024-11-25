@@ -1,6 +1,6 @@
 {
   "name": "@chriscdn/to-date",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "A tool for converting numbers and strings to dates.",
   "repository": "https://github.com/chriscdn/to-date",
   "author": "Christopher Meyer <chris@schwiiz.org>",

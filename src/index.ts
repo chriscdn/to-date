@@ -40,9 +40,9 @@ const toDate = <T extends TValue>(
           ? value
           : value * 1000;
         break;
-      // case EpochUnit.SECONDS:
-      //   baseValue = value * 1000;
-      //   break;
+      case EpochUnit.SECONDS:
+        baseValue = value * 1000;
+        break;
       case EpochUnit.MILLISCONDS:
         baseValue = value;
         break;
