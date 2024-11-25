@@ -1,3 +1,4 @@
+import { describe, expect, test } from "vitest";
 import { isDate, toDate } from "../src/index";
 
 describe("isDate Tests", () => {
@@ -23,6 +24,7 @@ const setup = () => {
 
   return {
     date: now,
+    seconds: now.getTime() / 1000,
     milliseconds: now.getTime(),
     microseconds: now.getTime() * 1000,
   };
@@ -32,6 +34,13 @@ describe("toDate Tests", () => {
   test("toDate (date)", () => {
     const { date } = setup();
     const toDateValue = toDate(date);
+    expect(toDateValue?.getTime()).toEqual(date.getTime());
+  });
+
+  test("toDate (seconds)", () => {
+    const { date, seconds } = setup();
+    const toDateValue = toDate(seconds);
+
     expect(toDateValue?.getTime()).toEqual(date.getTime());
   });
 
