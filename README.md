@@ -28,7 +28,7 @@ yarn add @chriscdn/to-date
 
 ### toDate
 
-The `toDate` function accepts a `number` (seconds, ms or μs), `string`, `Date`, `null`, or `undefined`, and returns a `Date` or `undefined`.
+The `toDate` function accepts a `number` (seconds, ms, or μs), `string`, `Date`, `null`, or `undefined`, and returns a `Date` or `undefined`.
 
 For numbers, the method makes a best guess as to whether the value is in seconds, milliseconds, or microseconds, and converts accordingly.
 
