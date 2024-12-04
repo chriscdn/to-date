@@ -1,5 +1,5 @@
-const isLikelyMicroseconds = (n: number) => Math.log10(n) >= 13;
 const isLikelyMilliseconds = (n: number) => Math.log10(n) >= 10;
+const isLikelyMicroseconds = (n: number) => Math.log10(n) >= 13;
 
 const isDate = (object: unknown): object is Date =>
   object instanceof Date && !isNaN(object.getTime());

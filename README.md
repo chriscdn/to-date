@@ -7,7 +7,7 @@ A utility for converting numbers and strings to `Date`.
 This package adds a few conveniences over simply calling `new Date(value)`:
 
 - returns `undefined` instead of an `Invalid Date` object if the result is not a valid date
-- detects whether a `number` input is in milliseconds or microseconds, and converts accordingly
+- detects whether a `number` input is in seconds, milliseconds, or microseconds, and converts accordingly
 - includes an `isDate` function to test if an object is a valid date
 
 ## Installation
@@ -28,9 +28,9 @@ yarn add @chriscdn/to-date
 
 ### toDate
 
-The `toDate` function accepts a `number` (ms or μs), `string`, `Date`, `null`, or `undefined`, and returns a `Date` or `undefined`.
+The `toDate` function accepts a `number` (seconds, ms or μs), `string`, `Date`, `null`, or `undefined`, and returns a `Date` or `undefined`.
 
-For numbers, the method makes a best guess as to whether the value is in milliseconds or microseconds, and converts accordingly.
+For numbers, the method makes a best guess as to whether the value is in seconds, milliseconds, or microseconds, and converts accordingly.
 
 **Examples:**
 
@@ -44,7 +44,7 @@ toDate(1712226790000000);
 // 2024-04-04T10:33:10.000Z
 ```
 
-Ambiguity as to whether the number is in milliseconds or microseconds can be removed with the `EpochUnit` enum. This shouldn't be an issue for dates after 1971.
+Ambiguity as to whether the number is in seconds, milliseconds, or microseconds can be removed with the `EpochUnit` enum. This shouldn't be an issue for dates after 1971.
 
 ```js
 import { toDate, EpochUnit } from "@chriscdn/to-date";
