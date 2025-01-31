@@ -8,4 +8,12 @@ declare enum EpochUnit {
 type TValue = Date | string | number | null | undefined;
 type TReturnValue<T> = T extends Date | number ? Date : Date | undefined;
 declare const toDate: <T extends TValue>(value: T, epochUnit?: EpochUnit) => TReturnValue<T>;
-export { EpochUnit, isDate, toDate };
+/**
+ * This method is only interesting if value is a string.
+ *
+ * @param value
+ * @param epochUnit
+ * @returns
+ */
+declare const toDateUTC: <T extends TValue>(value: T, epochUnit?: EpochUnit) => TReturnValue<T>;
+export { EpochUnit, isDate, toDate, toDateUTC };

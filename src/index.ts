@@ -14,8 +14,7 @@ enum EpochUnit {
 type TValue = Date | string | number | null | undefined;
 
 // We're guaranteed a Date return value if the input is a number or Date.
-type TReturnValue<T> = T extends Date | number ? Date
-  : Date | undefined;
+type TReturnValue<T> = T extends Date | number ? Date : Date | undefined;
 
 const toDate = <T extends TValue>(
   value: T,
@@ -57,4 +56,20 @@ const toDate = <T extends TValue>(
   }
 };
 
-export { EpochUnit, isDate, toDate };
+/**
+ * This method is only interesting if value is a string.
+ *
+ * @param value
+ * @param epochUnit
+ * @returns
+ */
+const toDateUTC = <T extends TValue>(
+  value: T,
+  epochUnit = EpochUnit.BESTGUESS,
+): TReturnValue<T> => {
+  return typeof value === "string" && !value.endsWith("Z")
+    ? toDate(`${value}Z`, epochUnit)
+    : toDate(value, epochUnit);
+};
+
+export { EpochUnit, isDate, toDate, toDateUTC };
