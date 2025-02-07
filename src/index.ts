@@ -57,19 +57,37 @@ const toDate = <T extends TValue>(
 };
 
 /**
- * This method is only interesting if value is a string.
+ * This method handles a specific parsing scenario when string dates are given
+ * without a time zone, e.g., 2025-02-07T15:00:00.
  *
- * @param value
- * @param epochUnit
- * @returns
+ * When passed to `new Date()`, the date is assumed to be in the local device's
+ * time zone. As a result, devices in different time zones will interpret the
+ * value differently.
+ *
+ * This isn't always a problem. For example, the `Intl.DateTimeFormat` date
+ * formatter will format the value in the local time zone.
+ *
+ * Things get difficult when parsing a value and formatting in a differnt time
+ * zone.
+ *
  */
-const toDateUTC = <T extends TValue>(
-  value: T,
-  epochUnit = EpochUnit.BESTGUESS,
-): TReturnValue<T> => {
-  return typeof value === "string" && !value.endsWith("Z")
-    ? toDate(`${value}Z`, epochUnit)
-    : toDate(value, epochUnit);
+const toDateUTC = (value: string): TReturnValue<string> => {
+  const theDate = toDate(value);
+
+  if (isDate(theDate)) {
+    return toDate(
+      Date.UTC(
+        theDate.getFullYear(),
+        theDate.getMonth(),
+        theDate.getDate(),
+        theDate.getHours(),
+        theDate.getMinutes(),
+        theDate.getSeconds(),
+      ),
+    );
+  } else {
+    return null;
+  }
 };
 
 export { EpochUnit, isDate, toDate, toDateUTC };

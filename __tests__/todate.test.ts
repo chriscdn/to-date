@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { isDate, toDate } from "../src/index";
+import { isDate, toDate, toDateUTC } from "../src/index";
 
 describe("isDate Tests", () => {
   test("isDate 02", () => {
@@ -55,5 +55,22 @@ describe("toDate Tests", () => {
     const { date, microseconds } = setup();
     const toDateValue = toDate(microseconds);
     expect(toDateValue?.getTime()).toEqual(date.getTime());
+  });
+});
+
+describe("toDate UTC", () => {
+  test("UTC1", () => {
+    const z = toDateUTC("2024-04-09T00:00:00");
+    expect(z.toISOString()).toBe("2024-04-09T00:00:00.000Z");
+  });
+
+  test("UTC2", () => {
+    const d1 = toDate(1738917445239);
+    const d2 = toDateUTC(1738917445239);
+
+    console.log("d1: ", d1);
+    console.log("d2: ", d2);
+
+    expect(d1.getTime()).equals(d2.getTime());
   });
 });
