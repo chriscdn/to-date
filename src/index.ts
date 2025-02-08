@@ -65,11 +65,11 @@ const toDate = <T extends TValue>(
  * value differently.
  *
  * This isn't always a problem. For example, the `Intl.DateTimeFormat` date
- * formatter will format the value in the local time zone.
+ * formatter will format the value in the local time zone. Parsed and processed
+ * on the same client is usually fine.
  *
- * Things get difficult when parsing a value and formatting in a differnt time
- * zone.
- *
+ * However, this can be an issue if a server (e.g., ssr) is located in a different time
+ * zone than the client.
  */
 const toDateUTC = (value: string): TReturnValue<string> => {
   const theDate = toDate(value);
@@ -86,7 +86,7 @@ const toDateUTC = (value: string): TReturnValue<string> => {
       ),
     );
   } else {
-    return null;
+    return undefined;
   }
 };
 
