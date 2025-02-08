@@ -61,7 +61,7 @@ describe("toDate Tests", () => {
 describe("toDate UTC", () => {
   test("UTC1", () => {
     const z = toDateUTC("2024-04-09T00:00:00");
-    expect(z?.toISOString()).toBe("2024-04-09T00:00:00.000Z");
+    expect(z?f.toISOString()).toBe("2024-04-09T00:00:00.000Z");
   });
 
   // test("UTC2", () => {
