@@ -14,7 +14,7 @@ enum EpochUnit {
 type TValue = Date | string | number | null | undefined;
 
 // We're guaranteed a Date return value if the input is a number or Date.
-type TReturnValue<T> = T extends Date | number ? Date : Date | undefined;
+type TReturnValue<T> = T extends Date | number ? Date : Date | null;
 
 const toDate = <T extends TValue>(
   value: T,
@@ -52,7 +52,7 @@ const toDate = <T extends TValue>(
 
     return new Date(baseValue);
   } else {
-    return undefined as TReturnValue<T>;
+    return null as TReturnValue<T>;
   }
 };
 
@@ -71,7 +71,7 @@ const toDate = <T extends TValue>(
  * However, this can be an issue if a server (e.g., ssr) is located in a different time
  * zone than the client.
  */
-const toDateUTC = (value: string): TReturnValue<string> => {
+const toDateUTC = <T extends TValue>(value: T): TReturnValue<T> => {
   const theDate = toDate(value);
 
   if (isDate(theDate)) {
@@ -86,7 +86,7 @@ const toDateUTC = (value: string): TReturnValue<string> => {
       ),
     );
   } else {
-    return undefined;
+    return null as TReturnValue<T>;
   }
 };
 

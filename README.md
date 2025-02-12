@@ -1,14 +1,14 @@
 # @chriscdn/to-date
 
-A utility for converting numbers and strings to `Date`.
+A utility for converting numbers and strings into `Date` objects.
 
 ## Motivation
 
-This package adds a few conveniences over simply calling `new Date(value)`:
+This package offers several improvements over directly calling `new Date(value)`, including:
 
-- returns `undefined` instead of an `Invalid Date` object if the result is not a valid date
-- detects whether a `number` input is in seconds, milliseconds, or microseconds, and converts accordingly
-- includes an `isDate` function to test if an object is a valid date
+- Returning `null` instead of an `Invalid Date` object when the input is not a valid date.
+- Automatically detecting whether a `number` input is in seconds, milliseconds, or microseconds and converting accordingly.
+- Providing an `isDate` function to check if a value is a valid `Date` object.
 
 ## Installation
 
@@ -28,15 +28,18 @@ yarn add @chriscdn/to-date
 
 ### toDate
 
-The `toDate` function accepts a `number` (seconds, ms, or μs), `string`, `Date`, `null`, or `undefined`, and returns a `Date` or `undefined`.
+The `toDate` function accepts a `number`, `string`, `Date`, `null`, or `undefined` and returns either a `Date` or `null`.
 
-For numbers, the method makes a best guess as to whether the value is in seconds, milliseconds, or microseconds, and converts accordingly.
+For numeric inputs, it determines whether the value represents seconds, milliseconds, or microseconds and converts accordingly.
+
+Date strings without a specified time zone are interpreted using the device's time zone.
 
 **Examples:**
 
-```js
+```ts
 import { toDate } from "@chriscdn/to-date";
 
+// Interpreted in the device's time zone (e.g., CET)
 toDate("2024-04-04T00:00:00");
 // 2024-04-03T22:00:00.000Z
 
@@ -44,22 +47,35 @@ toDate(1712226790000000);
 // 2024-04-04T10:33:10.000Z
 ```
 
-Ambiguity as to whether the number is in seconds, milliseconds, or microseconds can be removed with the `EpochUnit` enum. This shouldn't be an issue for dates after 1971.
+To eliminate ambiguity regarding whether a numeric input represents seconds, milliseconds, or microseconds, use the `EpochUnit` enum. For dates after 1971, this distinction should not be an issue.
 
-```js
+```ts
 import { toDate, EpochUnit } from "@chriscdn/to-date";
 
 toDate(1712226790000000, EpochUnit.MICROSECONDS);
 // 2024-04-04T10:33:10.000Z
 ```
 
+### toDateUTC
+
+The `toDateUTC` function has the same interface as `toDate`, but converts the date to UTC. It does this by first calling `toDate` on the input, extracting the year, month, day, hours, minutes, and seconds, and then creating a new `Date` object in UTC with those values.
+
+**Examples:**
+
+```ts
+import { toDateUTC } from "@chriscdn/to-date";
+
+toDateUTC("2024-04-04T00:00:00");
+// 2024-04-04T00:00:00.000Z
+```
+
 ### isDate
 
-The `isDate` function accepts a value, and returns `true` if the value is a valid `Date` object.
+The `isDate` function checks whether a given value is a valid `Date` object and returns `true` if it is.
 
-**Example:**
+**Examples:**
 
-```js
+```ts
 import { isDate } from "@chriscdn/to-date";
 
 isDate("2024-04-04T00:00:00");

@@ -6,7 +6,7 @@ declare enum EpochUnit {
     MICROSECONDS = 3
 }
 type TValue = Date | string | number | null | undefined;
-type TReturnValue<T> = T extends Date | number ? Date : Date | undefined;
+type TReturnValue<T> = T extends Date | number ? Date : Date | null;
 declare const toDate: <T extends TValue>(value: T, epochUnit?: EpochUnit) => TReturnValue<T>;
 /**
  * This method handles a specific parsing scenario when string dates are given
@@ -23,5 +23,5 @@ declare const toDate: <T extends TValue>(value: T, epochUnit?: EpochUnit) => TRe
  * However, this can be an issue if a server (e.g., ssr) is located in a different time
  * zone than the client.
  */
-declare const toDateUTC: (value: string) => TReturnValue<string>;
+declare const toDateUTC: <T extends TValue>(value: T) => TReturnValue<T>;
 export { EpochUnit, isDate, toDate, toDateUTC };

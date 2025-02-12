@@ -1,20 +1,20 @@
-import { describe, expect, test } from "vitest";
+import { describe, expect, it } from "vitest";
 import { isDate, toDate, toDateUTC } from "../src/index";
 
 describe("isDate Tests", () => {
-  test("isDate 02", () => {
+  it("isDate 01", () => {
     expect(isDate(0)).toEqual(false);
   });
 
-  test("isDate 02", () => {
+  it("isDate 02", () => {
     expect(isDate(100)).toEqual(false);
   });
 
-  test("isDate 03", () => {
+  it("isDate 03", () => {
     expect(isDate("hello")).toEqual(false);
   });
 
-  test("isDate 04", () => {
+  it("isDate 04", () => {
     expect(isDate(new Date())).toEqual(true);
   });
 });
@@ -31,27 +31,27 @@ const setup = () => {
 };
 
 describe("toDate Tests", () => {
-  test("toDate (date)", () => {
+  it("toDate (date)", () => {
     const { date } = setup();
     const toDateValue = toDate(date);
     expect(toDateValue?.getTime()).toEqual(date.getTime());
   });
 
-  test("toDate (seconds)", () => {
+  it("toDate (seconds)", () => {
     const { date, seconds } = setup();
     const toDateValue = toDate(seconds);
 
     expect(toDateValue?.getTime()).toEqual(date.getTime());
   });
 
-  test("toDate (milliseconds)", () => {
+  it("toDate (milliseconds)", () => {
     const { date, milliseconds } = setup();
     const toDateValue = toDate(milliseconds);
 
     expect(toDateValue?.getTime()).toEqual(date.getTime());
   });
 
-  test("toDate (microseconds)", () => {
+  it("toDate (microseconds)", () => {
     const { date, microseconds } = setup();
     const toDateValue = toDate(microseconds);
     expect(toDateValue?.getTime()).toEqual(date.getTime());
@@ -59,12 +59,12 @@ describe("toDate Tests", () => {
 });
 
 describe("toDate UTC", () => {
-  test("UTC1", () => {
-    const z = toDateUTC("2024-04-09T00:00:00");
-    expect(z?f.toISOString()).toBe("2024-04-09T00:00:00.000Z");
+  it("UTC1", () => {
+    const z = toDateUTC("2025-12-09T00:00:00");
+    expect(z?.toISOString()).toBe("2025-12-09T00:00:00.000Z");
   });
 
-  // test("UTC2", () => {
+  //it("UTC2", () => {
   //   const d1 = toDate(1738917445239);
   //   const d2 = toDateUTC(1738917445239);
 
