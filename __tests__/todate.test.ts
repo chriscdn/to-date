@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { isDate, toDate, toDateUTC } from "../src/index";
+import { isDate, toDate, toDateInTimeZone, toDateUTC } from "../src/index";
 
 describe("isDate Tests", () => {
   it("isDate 01", () => {
@@ -63,14 +63,20 @@ describe("toDate UTC", () => {
     const z = toDateUTC("2025-12-09T00:00:00");
     expect(z?.toISOString()).toBe("2025-12-09T00:00:00.000Z");
   });
+});
 
-  //it("UTC2", () => {
-  //   const d1 = toDate(1738917445239);
-  //   const d2 = toDateUTC(1738917445239);
+describe("toDate TZ", () => {
+  it("tz1", () => {
+    // 5 hour diff in winter
+    const s = "2025-02-27T14:00:00";
+    const d = toDateInTimeZone(s, "America/Toronto");
+    expect(d?.toISOString()).toBe("2025-02-27T19:00:00.000Z");
+  });
 
-  //   console.log("d1: ", d1);
-  //   console.log("d2: ", d2);
-
-  //   expect(d1.getTime()).equals(d2.getTime());
-  // });
+  it("tz2", () => {
+    // 4 hour diff in summer
+    const s = "2025-06-27T14:00:00";
+    const d = toDateInTimeZone(s, "America/Toronto");
+    expect(d?.toISOString()).toBe("2025-06-27T18:00:00.000Z");
+  });
 });
