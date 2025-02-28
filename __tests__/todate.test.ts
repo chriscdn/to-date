@@ -79,4 +79,11 @@ describe("toDate TZ", () => {
     const d = toDateInTimeZone(s, "America/Toronto");
     expect(d?.toISOString()).toBe("2025-06-27T18:00:00.000Z");
   });
+
+  it("tz3", () => {
+    // 4 hour diff in summer
+    const s = "2025-06-27T14:00:00";
+    const d = toDateInTimeZone(s, "UTC");
+    expect(d?.toISOString()).toBe("2025-06-27T14:00:00.000Z");
+  });
 });

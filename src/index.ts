@@ -90,7 +90,10 @@ const toDateUTC = <T extends TValue>(value: T): TReturnValue<T> => {
   }
 };
 
-const _getTimeZoneOffset = (date: Date, timeZone: string) => {
+const _getTimeZoneOffset = (
+  date: Date,
+  timeZone: Intl.DateTimeFormatOptions["timeZone"],
+) => {
   const formatter = new Intl.DateTimeFormat("en-US", {
     timeZone: timeZone,
     timeZoneName: "shortOffset",
@@ -102,13 +105,17 @@ const _getTimeZoneOffset = (date: Date, timeZone: string) => {
     (part) => part.type === "timeZoneName",
   )?.value;
 
-  const offsetMatch = timeZoneName?.match(/GMT([+-]\d+)/);
-
-  if (offsetMatch) {
-    const offsetHours = parseInt(offsetMatch[1], 10);
-    return offsetHours * 60; // Convert hours to minutes
+  if (timeZoneName === "GMT") {
+    return 0;
   } else {
-    throw new Error(`Unable to determine offset for time zone: ${timeZone}`);
+    const offsetMatch = timeZoneName?.match(/GMT([+-]\d+)/);
+
+    if (offsetMatch) {
+      const offsetHours = parseInt(offsetMatch[1], 10);
+      return offsetHours * 60; // Convert hours to minutes
+    } else {
+      throw new Error(`Unable to determine offset for time zone: ${timeZone}`);
+    }
   }
 };
 
@@ -130,7 +137,7 @@ const _getTimeZoneOffset = (date: Date, timeZone: string) => {
  */
 const toDateInTimeZone = <T extends TValue>(
   value: T,
-  timeZone: string,
+  timeZone: Intl.DateTimeFormatOptions["timeZone"],
 ): TReturnValue<T> => {
   const theDate = toDateUTC(value);
 

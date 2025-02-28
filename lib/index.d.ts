@@ -42,5 +42,5 @@ declare const toDateUTC: <T extends TValue>(value: T) => TReturnValue<T>;
  * This is useful for handling local date-times in a specific time zone without
  * assuming UTC.
  */
-declare const toDateInTimeZone: <T extends TValue>(value: T, timeZone: string) => TReturnValue<T>;
+declare const toDateInTimeZone: <T extends TValue>(value: T, timeZone: Intl.DateTimeFormatOptions["timeZone"]) => TReturnValue<T>;
 export { EpochUnit, isDate, toDate, toDateUTC, toDateInTimeZone };
