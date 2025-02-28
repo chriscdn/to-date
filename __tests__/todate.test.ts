@@ -63,6 +63,11 @@ describe("toDate UTC", () => {
     const z = toDateUTC("2025-12-09T00:00:00");
     expect(z?.toISOString()).toBe("2025-12-09T00:00:00.000Z");
   });
+
+  it("UTC2", () => {
+    const z = toDateUTC("2025-03-01");
+    expect(z?.toISOString()).toBe("2025-03-01T00:00:00.000Z");
+  });
 });
 
 describe("toDate TZ", () => {

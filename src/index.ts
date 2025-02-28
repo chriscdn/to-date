@@ -54,6 +54,15 @@ const toDate = <T extends TValue>(
   }
 };
 
+const isISO8601WithoutTimeZone = (str: unknown) => {
+  if (typeof str === "string") {
+    const regex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/;
+    return regex.test(str);
+  } else {
+    return false;
+  }
+};
+
 /**
  * This method handles a specific parsing scenario when string dates are given
  * without a time zone, e.g., "2025-02-07T15:00:00".
@@ -75,16 +84,20 @@ const toDateUTC = <T extends TValue>(value: T): TReturnValue<T> => {
   const theDate = toDate(value);
 
   if (isDate(theDate)) {
-    return toDate(
-      Date.UTC(
-        theDate.getFullYear(),
-        theDate.getMonth(),
-        theDate.getDate(),
-        theDate.getHours(),
-        theDate.getMinutes(),
-        theDate.getSeconds(),
-      ),
-    );
+    if (isISO8601WithoutTimeZone(value)) {
+      return toDate(
+        Date.UTC(
+          theDate.getFullYear(),
+          theDate.getMonth(),
+          theDate.getDate(),
+          theDate.getHours(),
+          theDate.getMinutes(),
+          theDate.getSeconds(),
+        ),
+      );
+    } else {
+      return theDate;
+    }
   } else {
     return null as TReturnValue<T>;
   }
@@ -135,6 +148,7 @@ const _getTimeZoneOffset = (
  * This is useful for handling local date-times in a specific time zone without
  * assuming UTC.
  */
+
 const toDateInTimeZone = <T extends TValue>(
   value: T,
   timeZone: Intl.DateTimeFormatOptions["timeZone"],
