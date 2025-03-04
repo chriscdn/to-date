@@ -84,6 +84,13 @@ const toDateUTC = <T extends TValue>(value: T): TReturnValue<T> => {
   const theDate = toDate(value);
 
   if (isDate(theDate)) {
+    // Dates such as "2025-01-01" are interpretted in UTC. So are dates with a
+    // time zone specififer e.g., "2025-01-01T15:00:00Z" or
+    // "2007-04-05T12:30−02:00".
+    //
+    // For this reason we explicitly check if the dates is iso8601 without a
+    // time zone before changing it.
+
     if (isISO8601WithoutTimeZone(value)) {
       return toDate(
         Date.UTC(
@@ -156,10 +163,12 @@ const toDateInTimeZone = <T extends TValue>(
   const theDate = toDateUTC(value);
 
   if (isDate(theDate)) {
-    const timeZoneOffset = _getTimeZoneOffset(theDate, timeZone);
+    if (isISO8601WithoutTimeZone(value)) {
+      const timeZoneOffset = _getTimeZoneOffset(theDate, timeZone);
 
-    /// theDate is a clone of value, so we can mutate it.
-    theDate.setMinutes(theDate.getMinutes() - timeZoneOffset);
+      /// theDate is a clone of value, so we can mutate it.
+      theDate.setMinutes(theDate.getMinutes() - timeZoneOffset);
+    }
 
     return theDate;
   } else {
