@@ -89,7 +89,7 @@ const toDateUTC = <T extends TValue>(value: T): TReturnValue<T> => {
     // "2007-04-05T12:30−02:00".
     //
     // For this reason we explicitly check if the dates is iso8601 without a
-    // time zone before changing it.
+    // time zone.
 
     if (isISO8601WithoutTimeZone(value)) {
       return toDate(
@@ -110,7 +110,7 @@ const toDateUTC = <T extends TValue>(value: T): TReturnValue<T> => {
   }
 };
 
-const _getTimeZoneOffset = (
+const getTimeZoneOffsetHours = (
   date: Date,
   timeZone: Intl.DateTimeFormatOptions["timeZone"],
 ) => {
@@ -132,7 +132,8 @@ const _getTimeZoneOffset = (
 
     if (offsetMatch) {
       const offsetHours = parseInt(offsetMatch[1], 10);
-      return offsetHours * 60; // Convert hours to minutes
+      // return offsetHours * 60; // Convert hours to minutes
+      return offsetHours;
     } else {
       throw new Error(`Unable to determine offset for time zone: ${timeZone}`);
     }
@@ -150,12 +151,11 @@ const _getTimeZoneOffset = (
  * Example: toDateInTimeZone('2025-06-27T14:00:00', 'America/Toronto')
  *
  * Interprets "2025-06-27 14:00:00" as occurring in the "America/Toronto" time
- *  zone.
+ * zone.
  *
  * This is useful for handling local date-times in a specific time zone without
  * assuming UTC.
  */
-
 const toDateInTimeZone = <T extends TValue>(
   value: T,
   timeZone: Intl.DateTimeFormatOptions["timeZone"],
@@ -164,10 +164,10 @@ const toDateInTimeZone = <T extends TValue>(
 
   if (isDate(theDate)) {
     if (isISO8601WithoutTimeZone(value)) {
-      const timeZoneOffset = _getTimeZoneOffset(theDate, timeZone);
+      const timeZoneOffsetHours = getTimeZoneOffsetHours(theDate, timeZone);
 
       /// theDate is a clone of value, so we can mutate it.
-      theDate.setMinutes(theDate.getMinutes() - timeZoneOffset);
+      theDate.setHours(theDate.getHours() - timeZoneOffsetHours);
     }
 
     return theDate;
@@ -176,4 +176,11 @@ const toDateInTimeZone = <T extends TValue>(
   }
 };
 
-export { EpochUnit, isDate, toDate, toDateUTC, toDateInTimeZone };
+export {
+  EpochUnit,
+  isDate,
+  toDate,
+  toDateUTC,
+  toDateInTimeZone,
+  getTimeZoneOffsetHours,
+};

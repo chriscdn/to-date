@@ -6,7 +6,7 @@
   "author": "Christopher Meyer <chris@schwiiz.org>",
   "license": "MIT",
   "type": "module",
-  "source": "src/index.ts",
+  "source": "./src/index.ts",
   "exports": {
     "types": "./lib/index.d.ts",
     "require": "./lib/to-date.cjs",
@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "microbundle": "^0.15.1",
-    "vitest": "^3.0.7"
+    "vitest": "^3.0.9"
   },
   "keywords": [
     "date",

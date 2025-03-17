@@ -26,6 +26,7 @@ declare const toDate: <T extends TValue>(value: T, epochUnit?: EpochUnit) => TRe
  * incorrectly, leading to inconsistencies.
  */
 declare const toDateUTC: <T extends TValue>(value: T) => TReturnValue<T>;
+declare const getTimeZoneOffsetHours: (date: Date, timeZone: Intl.DateTimeFormatOptions["timeZone"]) => number;
 /**
  * Similar to `toDateUTC`, this method handles a specific parsing scenario when
  * string dates are provided without a time zone, e.g., "2025-02-07T15:00:00".
@@ -37,10 +38,10 @@ declare const toDateUTC: <T extends TValue>(value: T) => TReturnValue<T>;
  * Example: toDateInTimeZone('2025-06-27T14:00:00', 'America/Toronto')
  *
  * Interprets "2025-06-27 14:00:00" as occurring in the "America/Toronto" time
- *  zone.
+ * zone.
  *
  * This is useful for handling local date-times in a specific time zone without
  * assuming UTC.
  */
 declare const toDateInTimeZone: <T extends TValue>(value: T, timeZone: Intl.DateTimeFormatOptions["timeZone"]) => TReturnValue<T>;
-export { EpochUnit, isDate, toDate, toDateUTC, toDateInTimeZone };
+export { EpochUnit, isDate, toDate, toDateUTC, toDateInTimeZone, getTimeZoneOffsetHours, };
